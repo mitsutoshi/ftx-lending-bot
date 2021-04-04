@@ -1,0 +1,15 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+requests = "*"
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+offer_usd_lending = 'python main.py -c USD'

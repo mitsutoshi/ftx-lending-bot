@@ -1,0 +1,24 @@
+on: 
+  schedule:
+      - cron: '0 */8 * * *'
+jobs:
+  lending:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv --upgrade-strategy=only-if-needed
+          pipenv install
+      - name: Run
+        run: pipenv run offer_usd_lending
+        env:
+          API_KEY: ${{ secrets.FTX_API_KEY }}
+          API_SECRET: ${{ secrets.FTX_API_SECRET }}
+
