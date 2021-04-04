@@ -8,7 +8,7 @@ import time
 import hmac
 from typing import Any
 
-from requests import Request, Session
+from requests import Request, Session, Response
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s %(asctime)s %(message)s')
@@ -28,7 +28,7 @@ class Ftx(object):
     def __init__(self, api_key: str, api_secret: str):
         self.api_key = api_key
         self.api_secret = api_secret
-        self.__base_url = 'https://ftx.com'
+        self.base_url = 'https://ftx.com'
         self.s = Session()
 
     @private
@@ -61,24 +61,21 @@ class Ftx(object):
     def spot_margin_offer(self, coin: str, size: float, rate: float) -> bool:
         data = {'coin': coin, 'size': size, 'rate': rate}
         res = self.__call_with_auth('POST', '/api/spot_margin/offers', data)
-
         result = json.loads(res.text)
         if res.status_code != 200 and 'error' in result:
             logger.error(result['error'])
             return False
         return 'success' in result and result['success']
 
-    def __call_with_auth(self, method: str, path: str, data: dict = None):
-        req = Request(method, self.__base_url + path, self.__auth_header(method, path, data))
+    def __call_with_auth(self, method: str, path: str, data: dict = None) -> Response:
+        req = Request(method, self.base_url + path, self.__auth_header(method, path, data))
         if data:
             req.json = data
         return self.s.send(req.prepare())
 
-    def __auth_header(self, method: str, path: str, data: dict = None):
+    def __auth_header(self, method: str, path: str, data: dict = None) -> dict[str, str]:
         ts = int(time.time() * 1000)
-        payload = f'{ts}{method}{path}'
-        if data:
-            payload += json.dumps(data)
+        payload = f'{ts}{method}{path}' + (json.dumps(data) if data else '')
         sign = hmac.new(self.api_secret.encode(), payload.encode(), 'sha256').hexdigest()
         return {
                 'FTX-KEY': self.api_key,
