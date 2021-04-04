@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# automate lending offer
 
 import os
 import argparse
@@ -9,7 +8,6 @@ import time
 import hmac
 from typing import Any
 
-import requests
 from requests import Request, Session
 
 

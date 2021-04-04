@@ -1,6 +1,10 @@
 on: 
   schedule:
       - cron: '0 */8 * * *'
+  push:
+    paths:
+        - '.github/workflows/lending.yml'
+        - 'main.py'
 jobs:
   lending:
     runs-on: [ubuntu-latest]
