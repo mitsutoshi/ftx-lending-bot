@@ -45,7 +45,7 @@ def main():
             logger.info(f"Found lenderble: coin={lnd['coin']}, available={offer}")
 
             # send offer
-            #ftx.spot_margin_offer(args.coin, offer, lnd['minRate'])
+            ftx.spot_margin_offer(args.coin, offer, lnd['minRate'])
             logger.info(f"{lnd['coin']} have been offered.")
 
 
