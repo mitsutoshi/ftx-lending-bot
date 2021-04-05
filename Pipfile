@@ -7,9 +7,11 @@ verify_ssl = true
 
 [packages]
 requests = "*"
+influxdb = "*"
 
 [requires]
 python_version = "3.9"
 
 [scripts]
 offer_usd_lending = 'python main.py -c USD'
+lending_history = 'python lending_history.py'

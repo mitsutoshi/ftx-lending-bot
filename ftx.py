@@ -43,6 +43,11 @@ class Ftx(object):
         return json.loads(res.text)['result']
 
     @private
+    def spot_margin_lending_history(self) -> list[dict[str, Any]]:
+        res = self.__call_with_auth('GET', '/api/spot_margin/lending_history')
+        return json.loads(res.text)['result']
+
+    @private
     def spot_margin_offer(self, coin: str, size: float, rate: float) -> bool:
         data = {'coin': coin, 'size': size, 'rate': rate}
         res = self.__call_with_auth('POST', '/api/spot_margin/offers', data)
