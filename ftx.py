@@ -21,20 +21,20 @@ def private(func):
 
 class Ftx(object):
 
-    def __init__(self, api_key: str, api_secret: str):
+    def __init__(self, api_key: str = None, api_secret: str = None):
         self.api_key = api_key
         self.api_secret = api_secret
         self.base_url = 'https://ftx.com'
         self.s = Session()
 
-    @private
-    def spot_margin_lending_rates(self) -> list[dict[str, Any]]:
-        res = self.__call_with_auth('GET', '/api/spot_margin/lending_rates')
+    def spot_margin_borrow_summary(self) -> list[dict[str, Any]]:
+        req = Request('GET', self.base_url + '/api/spot_margin/borrow_summary')
+        res = self.s.send(req.prepare())
         return json.loads(res.text)['result']
 
     @private
-    def spot_margin_borrow_summary(self) -> list[dict[str, Any]]:
-        res = self.__call_with_auth('GET', '/api/spot_margin/borrow_summary')
+    def spot_margin_lending_rates(self) -> list[dict[str, Any]]:
+        res = self.__call_with_auth('GET', '/api/spot_margin/lending_rates')
         return json.loads(res.text)['result']
 
     @private

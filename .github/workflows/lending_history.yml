@@ -5,9 +5,16 @@ on:
     paths:
         - '.github/workflows/lending_history.yml'
         - 'lending_history.py'
+        - 'borrow_summary.py'
 jobs:
   lending_history:
     runs-on: [ubuntu-latest]
+    env:
+      FTX_API_KEY: ${{ secrets.FTX_API_KEY }}
+      FTX_API_SECRET: ${{ secrets.FTX_API_SECRET }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_NAME: ${{ secrets.DB_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,11 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pipenv --upgrade-strategy=only-if-needed
           pipenv install
-      - name: Run
+      - name: Get Lending History
         run: pipenv run lending_history
-        env:
-          FTX_API_KEY: ${{ secrets.FTX_API_KEY }}
-          FTX_API_SECRET: ${{ secrets.FTX_API_SECRET }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+      - name: Get Borrow Summary
+        run: pipenv run borrow_summary
