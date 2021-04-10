@@ -18,6 +18,7 @@ logger.addHandler(h)
 
 
 def conv(t, coin, size):
+    logger.info(f"point: coin={coin}, size={size}")
     return {'measurement': 'borrow_summary',
             'time': t,
             'tags': {'coin': coin},
@@ -25,13 +26,13 @@ def conv(t, coin, size):
 
 
 def main():
-    logger.info("Start getting the borrow summary.")
+    logger.info(f"Start getting the borrow summary. {coins}")
     result = Ftx().spot_margin_borrow_summary()
     now = datetime.utcnow()
     points = [conv(now, r['coin'], r['size']) for r in result if r['coin'] in coins]
     idb = InfluxDBClient(os.environ['DB_HOST'], os.environ['DB_PORT'],
             os.getenv('DB_USER'), os.getenv('DB_PASS'), os.environ['DB_NAME'])
-    #idb.write_points(points)
+    idb.write_points(points)
     logger.info(f"IDB client have written {len(points)} records.")
     logger.info("End.")
 
