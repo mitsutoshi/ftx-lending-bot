@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 import time
@@ -7,7 +8,6 @@ from typing import Any
 from requests import Request, Session, Response
 
 
-logging.basicConfig(level=logging.INFO, format='%(levelname)s %(asctime)s %(message)s')
 logger = logging.getLogger()
 
 
@@ -22,8 +22,8 @@ def private(func):
 class Ftx(object):
 
     def __init__(self, api_key: str = None, api_secret: str = None):
-        self.api_key = api_key
-        self.api_secret = api_secret
+        self.api_key = api_key if api_key else os.getenv('FTX_API_KEY')
+        self.api_secret = api_secret if api_secret else os.getenv('FTX_API_SECRET')
         self.base_url = 'https://ftx.com'
         self.s = Session()
 
