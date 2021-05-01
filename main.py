@@ -40,7 +40,7 @@ def main():
 
             # send offer
             if lendable > lnd['offered']:
-                ftx.spot_margin_offer(args.coin, lendable, lnd['minRate'])
+                ftx.spot_margin_offer(lnd['coin'], lendable, lnd['minRate'])
                 logger.info(f"{lendable} {lnd['coin']} have been offered.")
 
 
