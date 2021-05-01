@@ -1,20 +1,16 @@
 import os
+import argparse
 from datetime import datetime
+import logging.config
 from logging import getLogger, StreamHandler, Formatter, INFO
 
 from ftx import Ftx
+
 from influxdb import InfluxDBClient
 
 
-coins = ['USD', 'USDT']
-
+logging.config.fileConfig("logging.conf")
 logger = getLogger(__name__)
-logger.setLevel(INFO)
-logger.propagate = False
-h = StreamHandler()
-h.setLevel(INFO)
-h.setFormatter(Formatter('%(levelname)s %(asctime)s %(filename)s %(message)s'))
-logger.addHandler(h)
 
 
 def conv(t, coin, size):
@@ -26,10 +22,20 @@ def conv(t, coin, size):
 
 
 def main():
-    logger.info(f"Start getting the borrow summary. {coins}")
+
+    # parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--coin', type=str, required=True,
+            dest='coin', nargs='*',  help='Coin name such as USD, BTC, etc.')
+    args = parser.parse_args()
+
+    # get borrow_summary
+    logger.info(f"Start getting the borrow summary. {args.coin}")
     result = Ftx().spot_margin_borrow_summary()
+
+    # write data
     now = datetime.utcnow()
-    points = [conv(now, r['coin'], r['size']) for r in result if r['coin'] in coins]
+    points = [conv(now, r['coin'], r['size']) for r in result if r['coin'] in args.coin]
     idb = InfluxDBClient(os.environ['DB_HOST'], os.environ['DB_PORT'],
             os.getenv('DB_USER'), os.getenv('DB_PASS'), os.environ['DB_NAME'])
     idb.write_points(points)
