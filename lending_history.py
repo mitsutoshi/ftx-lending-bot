@@ -8,13 +8,7 @@ from ftx import Ftx
 
 def main():
 
-    # check env vars
-    api_key = os.getenv('FTX_API_KEY')
-    api_secret = os.getenv('FTX_API_SECRET')
-    if not api_key or not api_secret:
-        raise ValueError('Environment variables are reuqired. [FTX_API_KEY, FTX_API_SECRET]')
-
-    ftx = Ftx(api_key, api_secret)
+    ftx = Ftx()
     history = ftx.spot_margin_lending_history()
 
     points = []
