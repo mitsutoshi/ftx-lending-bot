@@ -21,7 +21,7 @@ jobs:
           pip install pipenv --upgrade-strategy=only-if-needed
           pipenv install
       - name: Run
-        run: pipenv run offer_usd_lending
+        run: pipenv run offer_lending
         env:
           FTX_API_KEY: ${{ secrets.FTX_API_KEY }}
           FTX_API_SECRET: ${{ secrets.FTX_API_SECRET }}
