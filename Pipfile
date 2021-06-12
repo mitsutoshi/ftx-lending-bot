@@ -13,6 +13,6 @@ influxdb = "*"
 python_version = "3.9"
 
 [scripts]
-offer_lending = 'python main.py -c 1INCH BTC'
+offer_lending = 'python main.py -c 1INCH'
 lending_history = 'python lending_history.py'
 borrow_summary = 'python borrow_summary.py -c USD 1INCH BTC'
