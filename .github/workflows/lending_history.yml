@@ -30,4 +30,4 @@ jobs:
       - name: Get Lending History
         run: pipenv run lending_history
       - name: Get Borrow Summary
-        run: pipenv run borrow_summary
+        run: pipenv run borrow_summary -c ${{ secrets.COINS }}

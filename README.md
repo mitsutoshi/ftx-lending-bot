@@ -24,7 +24,7 @@ If there is a lendable balance in your account, the lending settings will be upd
 Run main.py with `-c` or `--coin` option. `<coin>` is a symbol of lending currency such as `USD`, `BTC`.
 
 ```
-python main.py -c <coin>
+python lending.py -c <coin>
 ```
 
 `-c` option is able to specify multiple values.
@@ -32,8 +32,7 @@ python main.py -c <coin>
 e.g. both `USD` and `BTC`
 
 ```
-python main.py -c USD BTC
+python lending.py -c USD BTC
 ```
 
-It is encouraged to run regularly.
-
+It is encouraged to run regularly. This repository is using GitHub Actions to run script regularly. If you want to use Github Actions, Please refer `.github/workflows/lending.yml`.
