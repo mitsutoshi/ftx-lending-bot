@@ -15,4 +15,4 @@ python_version = "3.9"
 [scripts]
 offer_lending = 'python main.py -c 1INCH USD'
 lending_history = 'python lending_history.py'
-borrow_summary = 'python borrow_summary.py -c USD 1INCH'
+borrow_summary = 'python borrow_summary.py -c 1INCH'
